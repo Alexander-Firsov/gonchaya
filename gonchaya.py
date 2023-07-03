@@ -1,21 +1,56 @@
 #!/bin/python3
 
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import hashlib
-import sys                      # для разбора параметров командной строки
-from IPython.display import display, Markdown # Для вывода форматированного текста
-import traceback
-import math
-import re
-import requests
-import html
-
 
 #   *** Классическая предобработка данных ***
-class PadlasException(Exception):
+class GonchayaException(Exception):
     pass
+
+# декоратор для pandas
+# источник идеи https://tirinox.ru/class-decorator/
+def pandas_with_added_functions(cls):
+    class pandas_upd:
+        def __init__(self, *args, **kwargs):
+            self._obj = cls(*args, **kwargs)
+        def __getattribute__(self, s):
+            try:
+                x = super().__getattribute__(s)
+            except AttributeError:
+                pass
+            else:
+                return x
+            
+            attr = self._obj.__getattribute__(s)
+            # это метод?
+            if isinstance(attr, type(self._obj.__init__)):
+                return attr
+            else:
+                # не метод, что-то другое
+                return attr
+        def test(self):
+            self.abirvalg.__annotations__['return'] = 'test'
+            return 'test'
+        def __str__(self):
+            # позволяет использовать print
+            return self._obj.__str__()
+        def __repr__(self):
+            # формирует текстовое представление в функциях display,
+            # интерактивном выводе значения переменной и пр.
+            return self._obj.__repr__()
+        #def __format__(self, format_spec):
+            #if isinstance(format_spec, unicode):
+            #    return unicode(str(self._obj))
+            #else:
+            #    return str(self._obj)
+        #    return str(self._obj)
+        
+        # автоматически не подтягивается индексирование декорированного класса
+        # укажем явно
+        def __getitem__(self, s):
+            return self._obj.__getitem__(s)
+    return NewCls
+
+
+
 
 def preparing_string_for_column_names(string:str):
     '''
@@ -56,7 +91,7 @@ def preprocessing__normalization_of_column_names(dataframe, report=None):
     # обозримом будующем равна нулю, поэтому проще кинуть исключение, чем писать
     # обрабатывающую логику.
     if dataframe.columns.nunique() != len(dataframe.columns):
-        raise PadlasException('В датасете присутствуют столбцы с одинаковым\
+        raise GonchayaException('В датасете присутствуют столбцы с одинаковым\
  именем. Требуется предварительное ручное вмешательство.')
     columns = {}
     for name in list(dataframe.columns):
@@ -68,12 +103,12 @@ def preprocessing__normalization_of_column_names(dataframe, report=None):
                 if report == 'con': print(report_string)
                 elif report == 'stderr': sys.stderr.write(report_string+'\n')
                 elif report == 'jupyter': display(Markdown('* '+report_string))
-            else: raise PadlasException('Автоматическое переименования столбцов\
+            else: raise GonchayaException('Автоматическое переименования столбцов\
  сгенерировало два новых имени, которые совпадают между собой. Требуется\
  предварительное ручное вмешательство. "'+str(name)+'"')
     dataframe = dataframe.rename(columns=columns)
     if dataframe.columns.nunique() != len(dataframe.columns):
-        raise PadlasException('Автоматическое переименование столбцов\
+        raise GonchayaException('Автоматическое переименование столбцов\
  сгенерировало имя, которое совпадает с уже используемым. Требуется\
  предварительное ручное вмешательство.')
     return dataframe.rename(columns=columns)
@@ -95,3 +130,19 @@ def isna(n):
     if n == None: return True
     if n != n: return True
     return False
+
+if __name__ == '__main__':
+    import sys                      # для разбора параметров командной строки
+    import traceback
+    import time
+    import math
+    import re
+    
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    from IPython.display import display, Markdown # Для вывода форматированного текста
+    import seaborn as sns
+    
+    import hashlib
+    import requests
+    import html
