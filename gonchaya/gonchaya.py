@@ -1,5 +1,5 @@
 #!/bin/python3
-
+# it's gonchaya.py
 
 #   *** Классическая предобработка данных ***
 class GonchayaException(Exception):
@@ -132,17 +132,4 @@ def isna(n):
     return False
 
 if __name__ == '__main__':
-    import sys                      # для разбора параметров командной строки
-    import traceback
-    import time
-    import math
-    import re
-    
-    import matplotlib.pyplot as plt
-    import pandas as pd
-    from IPython.display import display, Markdown # Для вывода форматированного текста
-    import seaborn as sns
-    
-    import hashlib
-    import requests
-    import html
+from gonchaya import _gonchaya
