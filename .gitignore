@@ -165,3 +165,6 @@ setup.cfg
 gonchaya.egg-info/
 dist/
 
+src/gonchaya/not_implemented.py
+src/debug.py
+
