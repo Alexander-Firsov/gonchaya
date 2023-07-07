@@ -27,4 +27,3 @@ else:
     import pandas as pd  # работа с датафреймами
     from IPython.display import display, Markdown  # Для вывода форматированного текста в jupyter notebooks
     import seaborn as sns
-
