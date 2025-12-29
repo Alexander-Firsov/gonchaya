@@ -1,0 +1,29 @@
+name: Publish to PyPI
+on:
+  push:
+    tags:
+      - 'v*' # Запуск при создании тега, например v1.0.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # Связываем с созданной средой
+    environment: pypi
+    permissions:
+      # ЭТО КЛЮЧЕВОЕ: разрешает получение OIDC токена
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ">=3.12"
+      - name: Build package
+        run: |
+          pip install build
+          python -m build
+      - name: Publish
+        # Использует OIDC автоматически, пароли не нужны
+        uses: pypa/gh-action-pypi-publish@release
