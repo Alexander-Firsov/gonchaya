@@ -2,13 +2,13 @@
 
 # Тут мы указываем сборщики
 # setuptools-scm тут может и не очень нужен, но указан на будущее
-requires = ["setuptools"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "gonchaya"
 authors = [{name = "Alexander Firsov", email="gonchaya@gifara.ru"}]
-version = "0.0.7"
+version = "0.0.8"
 
 # Лежат в корне проекта
 readme = "README.md"
@@ -21,10 +21,13 @@ requires-python = ">=3.12"
 # https://pypi.org/classifiers/
 # Для примера укажем категорию к которой принадлежит лицензия
 classifiers = [
+    "Development Status :: 1 - Planning",
     "License :: OSI Approved :: BSD License", # Исправлено с Apache на BSD
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",
+    "Natural Language :: English",
+    "Natural Language :: Russian",
 ]
 
 # Зависимости пакета, можно указывать версии с помощью операторов == и >= 
@@ -77,3 +80,6 @@ addopts = [
 #  "-vv",				        # подробный вывод хода теста
   "--import-mode=importlib"  	# меньше проблем с импортами
 ]
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["gonchaya*"]
