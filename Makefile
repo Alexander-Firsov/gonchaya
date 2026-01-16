@@ -10,6 +10,7 @@ COLOR_YELLOW := $(ESC)[1;33m
 COLOR_RESET := $(ESC)[0m
 PACKAGE ?= gonchaya
 PYPROJECT = pyproject.toml
+SHELL = /bin/bash
 
 help: # Вывод этой информации.
 	@echo -e "Tasks in $(COLOR_GREEN)gonchaya$(COLOR_RESET):"
@@ -143,30 +144,26 @@ publish_new_version: pyi # Публикация новой версии на PyP
 	@CURRENT_LOCAL=$$(grep '^version =' $(PYPROJECT) | cut -d '"' -f 2); \
 	echo "Локальная версия в $(PYPROJECT): $$CURRENT_LOCAL"; \
 	\
-	# 2. Получаем версию из PyPI (вызываем вашу цель и сохраняем результат)
-	# Мы используем ту же логику curl, что и в get_the_latest_version_from_PyPi
+	# 2. Получаем версию из PyPI (вызываем вашу цель и сохраняем результат) \
+	# Мы используем ту же логику curl, что и в get_the_latest_version_from_PyPi \
 	CURRENT_PYPI=$$(curl -s https://pypi.org/pypi/$(PACKAGE)/json | jq -r '.info.version' 2>/dev/null); \
 	if [ "$$CURRENT_PYPI" = "null" ] || [ -z "$$CURRENT_PYPI" ]; then CURRENT_PYPI="0.0.0"; fi; \
 	echo "Версия на PyPI: $$CURRENT_PYPI"; \
 	\
-	# 3. Вычисляем новую версию (инкремент последней цифры)
-	# Берем максимальную из двух и прибавляем 1 к последнему числу
-	#NEW_VERSION=$$(echo "$$CURRENT_LOCAL\n$$CURRENT_PYPI" | sort -V | tail -n 1 | awk -F. '{$$(NF)++; print $$1"."$$2"."$$3}'); \
-	#echo "Будет установлена новая версия: $$NEW_VERSION"; \
-	#\
-	# 3. Вычисляем новую версию
-	# Используем printf для гарантированного переноса строки
-	NEW_VERSION=$$(printf "%s\n%s" "$$CURRENT_LOCAL" "$$CURRENT_PYPI" | sort -V | tail -n 1 | awk -F. '{ \
-		OFS="."; \
-		$$NF = $$NF + 1; \
-		print $$0 \
+	# 3. Вычисляем новую версию (инкремент последней цифры) \
+	# Берем максимальную из двух и прибавляем 1 к последнему числу \
+	NEW_VERSION=$$(echo -e "$$CURRENT_LOCAL\n$$CURRENT_PYPI" | sort -V | tail -n 1 | awk -F. '{\
+	OFS="."; \
+	$$NF = $$NF + 1; \
+	print $$0 \
 	}'); \
-	echo "Будет установлена новая версия: $$NEW_VERSION";
-	
-	# 4. Обновляем версию в pyproject.toml
+	echo "Будет установлена новая версия: $$NEW_VERSION"; \
+	\
+	# 4. Обновляем версию в pyproject.toml \
 	sed -i "s/^version = \".*\"/version = \"$$NEW_VERSION\"/" $(PYPROJECT); \
 	\
-	# 5. Git: commit, tag, push
+	grep '^version =' $(PYPROJECT) \
+	# 5. Git: commit, tag, push \
 	git add $(PYPROJECT); \
 	git commit -m "Bump version to $$NEW_VERSION"; \
 	git tag v$$NEW_VERSION; \
