@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "gonchaya"
 authors = [{name = "Alexander Firsov", email="gonchaya@gifara.ru"}]
-version = "0.0.9"
+version = "0.0.10"
 
 # Лежат в корне проекта
 readme = "README.md"
