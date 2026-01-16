@@ -2,17 +2,17 @@ import inspect
 import threading
 from typing import Any, IO, TypeVar
 from weakref import ReferenceType
-from typing import Any, Callable, ClassVar, IO, Iterator, NamedTuple
+from typing import Any, Callable, ClassVar, IO, Iterator, NamedTuple, Set, Tuple, Type
 from collections import defaultdict
 import weakref
 from _typeshed import Incomplete
 from datetime import datetime
-from typing import Any
+from typing import Any, Dict
 
 start_time: datetime
 __version__: str
 _time_of_import: Incomplete
-default: dict[str, Any]
+default: Dict[str, Any]
 
 
 def time_since_application_launch(end=...) -> str: ...
@@ -41,7 +41,7 @@ def _format_colored_display_of_function(
 
 def is_parameter_a_list_of_class_X(
     params: list[Any],
-    myclass: type[Any],
+    myclass: Type[Any],
     *,
     file: IO[str] | None = None) -> bool: ...
 
@@ -53,9 +53,9 @@ def generate_rnd_str(length_: int = 10) -> str: ...
 
 class BCEnter:
     cmd: str
-    words: list[str]
-    unfinished_word: str | None
-    raw_input_string: str | None
+    words: Incomplete
+    unfinished_word: Incomplete
+    raw_input_string: Incomplete
 
     def __init__(
         self,
@@ -100,15 +100,16 @@ class BCParamType(metaclass=IterableClassMeta_BCParamType):
     _max_workers: int
     _all_instances: ClassVar[weakref.WeakSet[BCParamType]]
     _class_lock: ClassVar[threading.Lock]
+    def __iter__(self) -> Iterator[str]: ...
     @property
     def variants(self) -> list[str]: ...
-    _variants: list[str]
-    fun_get_variants: Callable
-    execution_order: int
+    _variants: Incomplete
+    fun_get_variants: Incomplete
+    execution_order: Incomplete
     _reload_was_used: bool
-    lock: threading.Lock
-    create_at: float
-    name: str
+    lock: Incomplete
+    create_at: Incomplete
+    name: Incomplete
 
     def __init__(
         self,
@@ -149,14 +150,14 @@ class IterableClassMeta_BCParamInstance(type):
 class BCParamInstance(metaclass=IterableClassMeta_BCParamInstance):
     _all_instances: ClassVar[weakref.WeakSet[BCParamInstance]]
     _class_lock: ClassVar[threading.Lock]
-    param: BCParamType
-    required: bool
-    truncate: bool
-    multiply: bool
-    variants_is_uniq: bool
-    evoked_variants: list[str] | None
-    lock: threading.Lock
-    create_at: float
+    param: Incomplete
+    required: Incomplete
+    truncate: Incomplete
+    multiply: Incomplete
+    variants_is_uniq: Incomplete
+    evoked_variants: Incomplete
+    lock: Incomplete
+    create_at: Incomplete
     name: Incomplete
 
     def __init__(
@@ -184,7 +185,7 @@ class BCParamInstance(metaclass=IterableClassMeta_BCParamInstance):
 class IterableClassMeta_BCCommands(type):
     def __iter__(cls) -> Iterator[BCCommands]: ...
     def __getitem__(
-        cls, index: int | slice) -> type[BCCommands] | list[BCCommands]: ...
+        cls, index: int | slice) -> Type[BCCommands] | list[BCCommands]: ...
 
 
 class BCCommands(metaclass=IterableClassMeta_BCCommands):
@@ -198,13 +199,13 @@ class BCCommands(metaclass=IterableClassMeta_BCCommands):
     class _LenName(NamedTuple):
         name: int
         params: int
-    params: list[BCParamInstance]
-    comment: str
-    fun: Callable | None
+    params: Incomplete
+    comment: Incomplete
+    fun: Incomplete
     _len_str_name: Incomplete
     _len_str_params: Incomplete
-    lock: threading.Lock
-    create_at: float
+    lock: Incomplete
+    create_at: Incomplete
     name: Incomplete
 
     def __init__(
@@ -226,16 +227,17 @@ class BCCommands(metaclass=IterableClassMeta_BCCommands):
 
     def __call__(self,
                  find: BCEnter | None = None) -> defaultdict[str,
-                                                             list[tuple[ReferenceType[BCCommands],
+                                                             list[Tuple[ReferenceType[BCCommands],
                                                                         ReferenceType[BCParamInstance]]]]: ...
 
 
 class BashCompletion:
-    options: set[str]
+    options: Set[str]
     def __init__(self) -> None: ...
     def parse(self, bce: BCEnter | None = None, *args, **kwargs): ...
 
 
+default: dict[str, Any]
 T = TypeVar('T', bound=object)
 
 

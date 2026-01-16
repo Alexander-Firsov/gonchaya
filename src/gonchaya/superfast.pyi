@@ -3,7 +3,7 @@ import weakref
 from . import GonchayaExeption as GonchayaExeption, time_since_application_launch as time_since_application_launch
 from _typeshed import Incomplete
 from collections import defaultdict
-from typing import Any, Callable, ClassVar, IO, Iterator, NamedTuple
+from typing import Any, Callable, ClassVar, IO, Iterator, NamedTuple, Set, Tuple, Type
 from weakref import ReferenceType
 
 t0: Incomplete
@@ -13,16 +13,16 @@ def get_time_import(modules: list[str]) -> dict[str, int]: ...
 is_bash_completion: Incomplete
 
 def _format_colored_display_of_function(fun: Callable | None, color: str = '') -> str: ...
-def is_parameter_a_list_of_class_X(params: list[Any], myclass: type[Any], *, file: IO[str] | None = None) -> bool: ...
+def is_parameter_a_list_of_class_X(params: list[Any], myclass: Type[Any], *, file: IO[str] | None = None) -> bool: ...
 def clearing_color_from_a_text(text: str) -> str: ...
 def ljust_colored(text: str, width: int = 0, fillchar: str = ' ') -> str: ...
 def generate_rnd_str(length_: int = 10) -> str: ...
 
 class BCEnter:
     cmd: str
-    words: list[str]
-    unfinished_word: str | None
-    raw_input_string: str | None
+    words: Incomplete
+    unfinished_word: Incomplete
+    raw_input_string: Incomplete
     def __init__(self, words: list[str] | str | None = None, unfinished_word: str | None = None) -> None: ...
     def load(self) -> None: ...
     def __repr__(self) -> str: ...
@@ -50,15 +50,16 @@ class BCParamType(metaclass=IterableClassMeta_BCParamType):
     _max_workers: int
     _all_instances: ClassVar[weakref.WeakSet[BCParamType]]
     _class_lock: ClassVar[threading.Lock]
+    def __iter__(self) -> Iterator[str]: ...
     @property
     def variants(self) -> list[str]: ...
-    _variants: list[str]
-    fun_get_variants: Callable
-    execution_order: int
+    _variants: Incomplete
+    fun_get_variants: Incomplete
+    execution_order: Incomplete
     _reload_was_used: bool
-    lock: threading.Lock
-    create_at: float
-    name: str
+    lock: Incomplete
+    create_at: Incomplete
+    name: Incomplete
     def __init__(self, name: str | None = None, fun_get_variants: Callable | None = None, *args, execution_order: int | None = 1, **kwargs) -> None: ...
     class functions:
         @staticmethod
@@ -78,14 +79,14 @@ class IterableClassMeta_BCParamInstance(type):
 class BCParamInstance(metaclass=IterableClassMeta_BCParamInstance):
     _all_instances: ClassVar[weakref.WeakSet[BCParamInstance]]
     _class_lock: ClassVar[threading.Lock]
-    param: BCParamType
-    required: bool
-    truncate: bool
-    multiply: bool
-    variants_is_uniq: bool
-    evoked_variants: list[str] | None
-    lock: threading.Lock
-    create_at: float
+    param: Incomplete
+    required: Incomplete
+    truncate: Incomplete
+    multiply: Incomplete
+    variants_is_uniq: Incomplete
+    evoked_variants: Incomplete
+    lock: Incomplete
+    create_at: Incomplete
     name: Incomplete
     def __init__(self, name: str | None = None, param: BCParamType | None = None, *args, required: bool | None = True, truncate: bool | None = False, multiply: bool | None = False, variants_is_uniq: bool | None = True, **kwargs) -> None: ...
     class _NameComponents(NamedTuple):
@@ -99,7 +100,7 @@ class BCParamInstance(metaclass=IterableClassMeta_BCParamInstance):
 
 class IterableClassMeta_BCCommands(type):
     def __iter__(cls) -> Iterator[BCCommands]: ...
-    def __getitem__(cls, index: int | slice) -> type[BCCommands] | list[BCCommands]: ...
+    def __getitem__(cls, index: int | slice) -> Type[BCCommands] | list[BCCommands]: ...
 
 class BCCommands(metaclass=IterableClassMeta_BCCommands):
     _color_cmd: str
@@ -111,13 +112,13 @@ class BCCommands(metaclass=IterableClassMeta_BCCommands):
     class _LenName(NamedTuple):
         name: int
         params: int
-    params: list[BCParamInstance]
-    comment: str
-    fun: Callable | None
+    params: Incomplete
+    comment: Incomplete
+    fun: Incomplete
     _len_str_name: Incomplete
     _len_str_params: Incomplete
-    lock: threading.Lock
-    create_at: float
+    lock: Incomplete
+    create_at: Incomplete
     name: Incomplete
     def __init__(self, name: str = ..., *args, params: list[BCParamInstance] | None = None, comment: str = '', fun: Callable | None = None, **kwargs) -> None: ...
     def _get_param_names(self, ljust: int = 0) -> str: ...
@@ -127,9 +128,9 @@ class BCCommands(metaclass=IterableClassMeta_BCCommands):
     def __str__(self) -> str: ...
     def __repr__(self) -> str: ...
     def __getitem__(self, index: int | slice | str) -> BCParamInstance: ...
-    def __call__(self, find: BCEnter | None = None) -> defaultdict[str, list[tuple[ReferenceType[BCCommands], ReferenceType[BCParamInstance]]]]: ...
+    def __call__(self, find: BCEnter | None = None) -> defaultdict[str, list[Tuple[ReferenceType[BCCommands], ReferenceType[BCParamInstance]]]]: ...
 
 class BashCompletion:
-    options: set[str]
+    options: Set[str]
     def __init__(self) -> None: ...
     def parse(self, bce: BCEnter | None = None, *args, **kwargs): ...

@@ -108,6 +108,22 @@ def initialize_functions(modes: str | list[str]) -> None:
                 variable_type_check,
                 make_instance,
             )
+        if mode in ['refactor_phases']:
+            from .refactor_phases import (
+                StyleManager,
+                RefactorManager,
+                freeze_permanently,
+                skip_for_now,
+                cosmetic_only,
+                ready_for_restructure,
+                allow_optimization,
+                allow_architectural,
+                preserve_all_comments_as_anchors,
+                experimental_refactor,
+                waiting_for_dependencies,
+                analyze_module,
+                print_analysis_report,
+            )
 
 
 if __name__ == "__main__":
