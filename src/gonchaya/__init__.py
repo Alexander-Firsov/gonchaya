@@ -61,6 +61,20 @@ get_constructor_params: Any = None
 variable_type_check: Any = None
 make_instance: Any = None
 
+StyleManager: Any = None
+RefactorManager: Any = None
+freeze_permanently: Any = None
+skip_for_now: Any = None
+cosmetic_only: Any = None
+ready_for_restructure: Any = None
+allow_optimization: Any = None
+allow_architectural: Any = None
+preserve_all_comments_as_anchors: Any = None
+experimental_refactor: Any = None
+waiting_for_dependencies: Any = None
+analyze_module: Any = None
+print_analysis_report: Any = None
+
 
 def initialize_functions(modes: str | list[str]) -> None:
     """
