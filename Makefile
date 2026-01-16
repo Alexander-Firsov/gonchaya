@@ -155,7 +155,8 @@ publish_new_version: pyi # Публикация новой версии на PyP
 	#echo "Будет установлена новая версия: $$NEW_VERSION"; \
 	#\
 	# 3. Вычисляем новую версию
-	NEW_VERSION=$$(echo -e "$$CURRENT_LOCAL\n$$CURRENT_PYPI" | sort -V | tail -n 1 | awk -F. '{ \
+	# Используем printf для гарантированного переноса строки
+	NEW_VERSION=$$(printf "%s\n%s" "$$CURRENT_LOCAL" "$$CURRENT_PYPI" | sort -V | tail -n 1 | awk -F. '{ \
 		OFS="."; \
 		$$NF = $$NF + 1; \
 		print $$0 \

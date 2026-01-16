@@ -165,3 +165,6 @@ junit/
 
 *.old*
 *.tmp
+
+setup.cfg
+setup.py
